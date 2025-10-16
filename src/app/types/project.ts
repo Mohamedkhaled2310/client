@@ -13,4 +13,3 @@ export interface Project {
       email: string;
     }[];
   }
-  
