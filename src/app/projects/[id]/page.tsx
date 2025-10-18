@@ -10,7 +10,7 @@ import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea
 import { motion } from 'framer-motion';
 import { PlusCircle } from 'lucide-react';
 import { AxiosError } from 'axios';
-import InviteMemberModal from '../../components/InviteMemberModal';
+import AddMemberModal from '../../components/AddMemberModal';
 import Image from 'next/image';
 interface SocketTaskMoved {
   room: string;
@@ -30,7 +30,7 @@ export default function ProjectBoard() {
   const [project, setProject] = useState<Project | null>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState('');
-  const [isInviteOpen, setInviteOpen] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   // 🔹 Fetch Project & Tasks
   useEffect(() => {
@@ -148,6 +148,17 @@ export default function ProjectBoard() {
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold">Members</h2>
         <button
+            onClick={() => setShowAddModal(true)}
+            className="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            + Add Member
+          </button>
+
+          {showAddModal && (
+            <AddMemberModal projectId={id} onClose={() => setShowAddModal(false)} />
+          )}
+
+        {/* <button
         onClick={() => setInviteOpen(true)}
         className="bg-green-600 text-white px-4 py-2 rounded-lg"
       >
@@ -159,11 +170,11 @@ export default function ProjectBoard() {
         onClose={() => setInviteOpen(false)}
         projectId={id}
       />
-      </div>
-
+        */}
+       </div>
       <div className="flex gap-3 mb-6">
         {project?.members?.map((m) => (
-          <div key={m._id} className="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded">
+          <div key={m._id} className=" flex items-center gap-2 bg-gray-100 px-3 py-1 rounded">
           <div className="relative w-6 h-6">
             <Image
               src="/profile.png"
